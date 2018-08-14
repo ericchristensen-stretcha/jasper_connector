@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    #
+    # Jasper Server configuration
+    #
+    <record id="view_jasper_connector_tree" model="ir.ui.view">
+        <field name="name">jasper.server.tree</field>
+        <field name="model">jasper.server</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+
+            <tree string="Jasper Server">
+                <field name="sequence"/>
+                <field name="host"/>
+                <field name="port"/>
+                <field name="user"/>
+                <field name="prefix"/>
+                <field name="repo"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="view_jasper_connector_form" model="ir.ui.view">
+        <field name="name">jasper.server.form</field>
+        <field name="model">jasper.server</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <form string="Jasper Server" version="7.0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="check_auth"
+                                string="Check Connectivity"
+                                type="object"
+                                help="Check connectivity with this server"
+                                class="oe_stat_button"
+                                icon="fa-check-square-o"
+                        />
+                    </div>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <field nolabel="1" name="enable"/>
+                            <label for="enable"/>
+                        </div>
+                        <div style="height: 15px;"/>
+                        <div class="oe_edit_only">
+                            <label for="host" string="Hostname or IP address"/>
+                        </div>
+                    </div>
+                    <h1><field name="host" placeholder="eg: localhost or 127.0.0.1"/></h1>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="port" placeholder="eg: 8080"/>
+                        </group>
+                        <group>
+                            <field name="user" required="1" placeholder="By default user is jasperadmin"/>
+                            <field name="password" password="1" required="1" placeholder="By default the password is jasperadmin"/>
+                        </group>
+                    </group>
+                    <group colspan="4" col="10">
+                        <field name="prefix" colspan="10"/>
+                        <field name="repo" colspan="10"/>
+                    </group>
+                    <group colspan="4">
+                        <separator string="Check and Authentification status" colspan="4"/>
+                        <field name="status" colspan="4" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_jasper_connector">
+        <field name="name">Server configuration</field>
+        <field name="res_model">jasper.server</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_jasper_connector"
+        action="action_jasper_connector"
+        sequence="30"
+        parent="menu_jasper_conn"/>
+
+  </data>
+</openerp>

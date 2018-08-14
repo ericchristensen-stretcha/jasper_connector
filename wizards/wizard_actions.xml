@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    <wizard id="wizard_jasper_document_print"
+        name="jasper_connector.document_print"
+        model="jasper.document"
+        string="Document Print"/>
+
+    <wizard id="wizard_jasper_make_template"
+        name="jasper_connector.make_template"
+        model="ir.model"
+        string="Make XML Template"
+        menu="False"/>
+
+    <menuitem id="menu_jasper_make_template" 
+        parent="menu_jasper"
+        sequence="20"
+        action="wizard_jasper_make_template"
+        type="wizard"/>
+
+  </data>
+</openerp>

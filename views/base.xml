@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    <menuitem id="menu_jasper_conn"
+        parent="report.reporting_menuitem"
+        sequence="20"
+        name="Jasper Reports"/>
+
+  </data>
+</openerp>
