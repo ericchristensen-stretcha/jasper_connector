@@ -18,6 +18,7 @@
         'views/base_view.xml',
         'data/jasper_document_extension.xml',
         # 'wizards/wizard.xml',
+        'wizards/call_jasper_report_view.xml',
         'wizards/load_file_view.xml',
         'views/server.xml',
         'views/document.xml',

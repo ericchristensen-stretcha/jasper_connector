@@ -384,7 +384,8 @@ class Report(object):
                 for d in self._context['jasper'].keys():
                     special_dict['CONTEXT_' + d.upper()] = context['jasper'][d]
 
-            par = parameter_dict(self.attrs, d_par, special_dict)
+            _logger.debug('Parameter context: %s', self.context.get('parameters',False))
+            par = parameter_dict(self.attrs, d_par, special_dict, self.context.get('parameters',False))
 
             # Execute the before query if it available
             _logger.debug('field ex: %s', ex)

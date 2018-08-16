@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <record id="view_call_jasper_report_form" model="ir.ui.view">
+        <field name="name">view_call_jasper_report_form</field>
+        <field name="model">wiz.call.jasper.report</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+        <form string="Call Jasper Report">
+            <group>
+                <field name="name"/>
+                <field name="name_id" invisible="1"/>
+                <field name="name_only_one" invisible="1"/>
+            </group>
+            <group colspan="4">
+                <field name="param_ids" context="{'param_id': name_id,'only_one' : name_only_one}">
+                    <tree editable="top">
+                        <field name="name" 
+                               domain="[('document_id','=',context.get('param_id')),
+                                        ('selectable','=',True),
+                                        ('enabled','=',True),
+                                        '|',
+                                        ('only_one','=',context.get('only_one')),
+                                        ('multi','=', not context.get('only_one'))
+                                        ]"
+                               options = "{'no_create': True}"
+                               readonly="1"
+                        />
+                        <field name="value"/>
+                    </tree>
+                </field>
+            </group>
+            <footer>
+                <button type="object" string="Generate Report" name="do_generate"/>
+                <button type="special" special="cancel" string="Cancel"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_call_jasper_report" model="ir.actions.act_window">
+        <field name="name">Call Japser Report</field>
+        <field name="res_model">wiz.call.jasper.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_call_jasper_report"
+        parent="menu_jasper_conn"
+        name="Call JasperReport"
+        sequence="40"
+        action="action_wizard_call_jasper_report"
+        groups="group_jasper_manager,group_jasper_user"/>
+
+  </data>
+</odoo>
