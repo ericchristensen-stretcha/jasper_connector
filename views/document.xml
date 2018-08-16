@@ -77,6 +77,9 @@
                 <field name="enabled"/>
                 <field name="name"/>
                 <field name="code"/>
+                <field name="only_one"/>
+                <field name="multi"/>
+                <field name="selectable"/>
             </tree>
         </field>
     </record>
@@ -89,11 +92,18 @@
             <form string="Parameter">
                 <sheet>
                     <group>
-                        <field name="name" select="1"/>
-                        <field name="enabled" select="2"/>
-                        <field name="code" select="1" colspan="4"/>
+                        <group>
+                            <field name="name" select="1"/>
+                            <field name="code" select="1" colspan="4"/>
+                        </group>
+                        <group>
+                            <field name="enabled" select="2"/>
+                            <field name="only_one"/>
+                            <field name="multi"/>
+                            <field name="selectable"/>
+                        </group>
                     </group>
-                    <separator string="Legend" colspan="4"/>
+                    <separator string="Legend for field code" colspan="4"/>
                     <group colspan="4" col="2">
                         <label align="0.0" string="Use [[ o.name ]] to called browse object, see below for possibility" colspan="4"/>
                         <label align="0.0" string="c: for user s company" colspan="4"/>
@@ -321,5 +331,6 @@
         sequence="10"
         action="act_open_document_view"
         groups="group_jasper_manager"/>
+
   </data>
 </openerp>

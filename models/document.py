@@ -437,11 +437,14 @@ class jasper_document_parameter(models.Model):
         return True
 
     # SOC #
-    name        =  fields.Char('Name', size=32, help='Name of the jasper parameter, the prefix must be OERP_', required=True)
-    code        =  fields.Char('Code', size=256, help='Enter the code to retrieve data', required=True)
-    enabled     =  fields.Boolean('Enabled', default=True)
-    document_id =  fields.Many2one('jasper.document', 'Document',
-                                   required=True)
+    name        = fields.Char('Name', size=32, help='Name of the jasper parameter, the prefix must be OERP_', required=True)
+    code        = fields.Char('Code', size=256, help='Enter the code to retrieve data', required=True)
+    enabled     = fields.Boolean('Enabled', default=True)
+    only_one    = fields.Boolean('One Run')
+    multi       = fields.Boolean('Multi Run')
+    selectable  = fields.Boolean('Selectable')
+    document_id = fields.Many2one('jasper.document', 'Document',
+                                  required=True)
     # EOC #
 
 

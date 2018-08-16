@@ -60,7 +60,7 @@ def entities(data):
     return data
 
 
-def parameter(dico, resource, special=None):
+def parameter(dico, resource, special=None,parameters=None):
     """
     Convert value to a parameter for SOAP query
 
@@ -71,6 +71,7 @@ def parameter(dico, resource, special=None):
     @rtype: xmlstring
     @return: XML String representation
     """
+    _logger.debug('Included parameters: %s', parameters)
     res = ''
     for key in resource:
         _logger.debug(' PARAMETER -> RESOURCE: %s' % key)
@@ -128,7 +129,7 @@ def parameter(dico, resource, special=None):
     return res
 
 
-def parameter_dict(dico, resource, special=None):
+def parameter_dict(dico, resource, special=None, parameters=None):
     """
     Convert value to a parameter for SOAP query
 
@@ -139,12 +140,17 @@ def parameter_dict(dico, resource, special=None):
     @rtype: dict
     @return: All keys in a dict
     """
+    _logger.debug('Included parameters: %s', parameters)
     res = {}
     for key in resource:
         _logger.debug(' PARAMETER -> RESOURCE: %s' % key)
         if key in 'xml_data':
             continue
-        res['OERP_%s' % key.upper()] = ustr(resource[key])
+        if parameters.get(key,False):
+            _logger.debug('Parameter replaced by %s - %s', key, parameters[key] )
+            res['OERP_%s' % key.upper()] = parameters[key]
+        else:
+            res['OERP_%s' % key.upper()] = ustr(resource[key])
 
     for key in dico:
         _logger.debug(' PARAMETER -> DICO: %s' % key)
