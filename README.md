@@ -20,7 +20,7 @@ In extension:
 
 <div style="font-family: Helvetica,Arial,sans-serif; margin-left: 40px;">
 
--You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
+- You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
 - Filter you records through standard Odoo search filtering  
 - Generate your report  
 
@@ -30,7 +30,7 @@ In extension:
 
 <div style="font-family: Helvetica,Arial,sans-serif; margin-left: 40px;">
 
--You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
+- You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
 - open the generic jasperreport wizard  
 - Provide any report parameters  
 - Generate your report
