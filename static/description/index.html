@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+</head><body>
+<h1 style="font-family: Helvetica,Arial,sans-serif;">jasper_connector</h1>
+<h2 style="font-family: Helvetica,Arial,sans-serif;">A
+module to run existing reports on a JasperSoft Server.</h2>
+<span style="font-family: Helvetica,Arial,sans-serif;">The
+work is based on the original module of Mirounga, but its philosophy is
+more to stay with the standard design architecture of JasperSoft.<br>
+<br>
+In extension:<br>
+<br>
+</span>
+<ul style="font-family: Helvetica,Arial,sans-serif;">
+<li>Design your report with JasperSoft Studio</li>
+<li>Publish it to the JasperSoft Server Repository</li>
+<li>Use it in Odoo</li>
+</ul>
+<span style="font-family: Helvetica,Arial,sans-serif;">There
+are two ways of calling reports:<br>
+<br>
+</span>
+<ol style="font-family: Helvetica,Arial,sans-serif;">
+<li>As any other report</li>
+</ol>
+<div style="margin-left: 40px; font-family: Helvetica,Arial,sans-serif;">
+<p>-You define a jasperDocument which refers to the existing
+report in the
+JasperSoft Server Repository<br>
+- Filter you records through standard Odoo search filtering<br>
+- Generate your report<br>
+</p>
+</div>
+<ol start="2" style="font-family: Helvetica,Arial,sans-serif;">
+<li>Through the generic report caller</li>
+</ol>
+<div style="margin-left: 40px; font-family: Helvetica,Arial,sans-serif;">
+<p>
+-You define a jasperDocument which refers to the existing report in the
+JasperSoft Server Repository<br>
+- open the generic jasperreport wizard<br>
+- Provide any report parameters <br>
+- Generate your report
+</p>
+</div>
+</body></html>
