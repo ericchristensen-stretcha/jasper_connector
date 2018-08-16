@@ -1,22 +1,38 @@
-jasper_connector
------------------------
+# jasper_connector
 
-This module interfaces JasperReport Server with Odoo V10
+## A module to run existing reports on a JasperSoft Server.
 
-Features:
-- Document source must be in CSV, XML
-- Save document as attachment on object
-- Retrieve attachment if present
-- Launch multiple reports and merge in one printing action
-- Add additionnals parameters (ex from fields function)
-- Affect group on report
-- Use context to display or not the print button
-    (eg: in stock.picking separate per type)
-- Execute SQL query before and after treatement
-- Launch report based on SQL View
-- Add additional pages at the begining or at the end of the document
+<span style="font-family: Helvetica,Arial,sans-serif;">The work is based on the original module of Mirounga, but its philosophy is more to stay with the standard design architecture of JasperSoft.  
 
-This module required library to work properly
+In extension:  
 
-# pip install httplib2 (>= 0.6.0)
-# pip install pyPdf (>= 1.13)
+</span>
+
+*   Design your report with JasperSoft Studio
+*   Publish it to the JasperSoft Server Repository
+*   Use it in Odoo
+
+<span style="font-family: Helvetica,Arial,sans-serif;">There are two ways of calling reports:  
+
+</span>
+
+1.  As any other report
+
+<div style="font-family: Helvetica,Arial,sans-serif; margin-left: 40px;">
+
+-You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
+- Filter you records through standard Odoo search filtering  
+- Generate your report  
+
+</div>
+
+2.  Through the generic report caller
+
+<div style="font-family: Helvetica,Arial,sans-serif; margin-left: 40px;">
+
+-You define a jasperDocument which refers to the existing report in the JasperSoft Server Repository  
+- open the generic jasperreport wizard  
+- Provide any report parameters  
+- Generate your report
+
+</div>
