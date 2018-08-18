@@ -1,12 +1,19 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-</head><body>
+</head>
+<body>
 <h1 style="font-family: Helvetica,Arial,sans-serif;">jasper_connector</h1>
 <h2 style="font-family: Helvetica,Arial,sans-serif;">A
 module to run existing reports on a JasperSoft Server.</h2>
 <span style="font-family: Helvetica,Arial,sans-serif;">The
 work is based on the original module of Mirounga, but its philosophy is
-more to stay with the standard design architecture of JasperSoft.<br>
+more to stay with the standard design architecture of JasperSoft.<br>Allthough
+many changes have been made to align the code with the above rule,
+still parts of the old code may be found in here to maybe activate them
+at a later stage.<br><br><strong>Remark: This is not an 'easy' module,
+it requires extensive knowledge of the JasperSoft world, but once
+aquainted with that environment you will most probably appreciate its
+power. </strong><br>
 <br>
 In extension:<br>
 <br>
@@ -35,12 +42,57 @@ JasperSoft Server Repository<br>
 <li>Through the generic report caller</li>
 </ol>
 <div style="margin-left: 40px; font-family: Helvetica,Arial,sans-serif;">
-<p>
--You define a jasperDocument which refers to the existing report in the
+<p>-You define a jasperDocument which refers to the existing
+report in the
 JasperSoft Server Repository<br>
 - open the generic jasperreport wizard<br>
 - Provide any report parameters <br>
-- Generate your report
-</p>
+- Generate your report</p>
 </div>
+<h1 style="font-family: Helvetica,Arial,sans-serif;">How to use?</h1><h2 style="font-family: Helvetica,Arial,sans-serif;">Configure your JasperSoft Server's configuration</h2><span style="font-family: Helvetica,Arial,sans-serif;">Location: Settings -&gt; Technical -&gt; &nbsp;Reports -&gt; Japser &nbsp;Reports -&gt; Server Configuration</span><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><img style="width: 825px; height: 415px; font-family: Helvetica,Arial,sans-serif;" alt="Server Configuration" title="Server Configuration" src="server_configuration.png"><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><ul style="font-family: Helvetica,Arial,sans-serif;"><li>The
+enable flag is in fact the same as the active flag and turns the record
+invisible to searches (i.e. if no server is provided for a report then
+the module will accept any available (read enabled) server).</li><li>The Prefix is the value based on the position od the report on the Jaspersoft Server.</li><li>The
+repository is in most cases as shown here - root - unless you decided
+to implement a more complex configuartion on the Jasper side.</li></ul><h3 style="font-family: Helvetica,Arial,sans-serif;">The Prefix</h3><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">The prefix is: that what will be prefixed to locate your report on the &nbsp;jasper server.</span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">If you do not provide any value then the default location will be:<br><br></span><em style="font-family: Helvetica,Arial,sans-serif;">[repository]/openerp/bases/instances/[database_name]/[your_report_unit_name]</em><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;"><br>By changing the prefix, like above, it will become:</span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;"><br><em>[repository]/reports/Odoo/instances/[database_name]/[your_report_unit_name]</em></span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;"><br><img style="width: 505px; height: 559px;" alt="Report path as can be found in the report properties" title="Report path as can be found in the report properties" src="report_path.png"> <br><br>As
+soon as you provided all the details, the button in the right corner
+will confirm a succesfull configuration by placing a return message in
+the Check and Authentication status box.<br><br></span><h2 style="font-family: Helvetica,Arial,sans-serif;">Document Extensions</h2><span style="font-family: Helvetica,Arial,sans-serif;">Location: Settings -&gt; Technical -&gt; &nbsp;Reports -&gt; Japser &nbsp;Reports -&gt; Document Extensions<br><br>Alltough one can try to edit an eventually add extensions, this is a bad idea and well for the following reasons:<br><br></span><ol style="font-family: Helvetica,Arial,sans-serif;"><li>the
+extensions are normally predefined and are injected through xml. Adding
+your own should follow the same principle and adding them into the
+jasper_document_extension.xml file.</li><li>this version of the
+japser_connector module uses the runReport webservice API which is
+limited to the number of formats as already defined. So unless you
+rewrite the webservice part you will not be able to enjoy any other
+formats.</li></ol><h2 style="font-family: Helvetica,Arial,sans-serif;">Documents</h2><span style="font-family: Helvetica,Arial,sans-serif;">Location: Settings -&gt; Technical -&gt; &nbsp;Reports -&gt; Japser &nbsp;Reports -&gt; Documents<br><br>So
+the generic design philosofy for this module is that you design, test
+and refactor your reports through JasperStudio, publish them and then
+call them through Odoo. <br>So once you have finished all that, then you are ready to create a Document entry.<br><br><img style="width: 825px; height: 553px;" alt="Document configuration view" title="Document configuration view" src="documents.png">&nbsp;<br></span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">The enabled flag is equal to the active flag and renders the report invisible for searches.</span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">The formats fields allows you to select one of the predefined document extensions supported</span><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><h3 style="font-family: Helvetica,Arial,sans-serif;">General Tab </h3><ul style="font-family: Helvetica,Arial,sans-serif;"><li>The object model is the model where the option will appear in the Print menu</li><li>The
+Report Unit is equivalent to the name of your report and as stated
+above is part of the path to the report on the JasperServer</li><li>Launch
+one time for all ids, will - if active- create one report based on all
+ids at once. If not active it will generate a report for each id
+seperately</li><li>Duplicate indicates on how meny copies you want of the report</li><li>Save
+as attachment prefix is an eval compatible python expression which can
+be provided to form the filename of your report, the extension will be
+automatically appended. The format is similar to the one avialable in
+other report definitions of Odoo (i.e. you have access to constants
+(e.g. 'myreport') , the object (e.g. object.name) &nbsp;or time (e.g. <span class="o_form_field">time.strftime("%Y-%m-%d %H:%M:%S")</span></li><li><span class="o_form_field">Reload from attachment, will reload the previous report result if one exists with the exact same name on the target object</span></li></ul><h2 style="font-family: Helvetica,Arial,sans-serif;">Groups Tab</h2><span style="font-family: Helvetica,Arial,sans-serif;">In
+case you select groups the report will only be available to members of
+these groups. No groups means application wide availability.</span><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><h2 style="font-family: Helvetica,Arial,sans-serif;">Blocking Tab</h2><span style="font-family: Helvetica,Arial,sans-serif;">In this tab you can define a condition in which you do not want the report generation .</span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">Three choices:</span><br style="font-family: Helvetica,Arial,sans-serif;"><ul style="font-family: Helvetica,Arial,sans-serif;"><li>None - the report will be generated at all timesto happen.</li><li>Simple
+- in the Simple Check field you can enter an eval compatble python code
+phrase in which you have access to the object as o (e.g. o.state in
+('open','pending')) and the text you fill in the Return Message will be
+showh when the check returns a false condition. </li><li>Function - if
+activated it is expected that the subject model contains a check_print
+function. The function should return a tuple with two values e.g.
+(False,'Genration not possible') or (True,'').</li></ul><h2 style="font-family: Helvetica,Arial,sans-serif;">Parameters Tab</h2><span style="font-family: Helvetica,Arial,sans-serif;">The parameters tab contains all report parameter as defined and required by your report design.</span><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">However
+in your report design your parameters should receive the OERP_ prefix
+and should be uppercased, e.g. ( reportID -&gt; OERP_REPORTID). </span><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><span style="font-family: Helvetica,Arial,sans-serif;">There are some special ways of using the parameters defined here:</span><br style="font-family: Helvetica,Arial,sans-serif;"><br style="font-family: Helvetica,Arial,sans-serif;"><ul style="font-family: Helvetica,Arial,sans-serif;"><li>A&nbsp;classic
+report in Odoo, usually lets you filter your records and then by
+selecting your records you can generate your report. </li></ul><div style="margin-left: 40px; font-family: Helvetica,Arial,sans-serif;">In order for this to work should setup report as follows:<br></div><br style="font-family: Helvetica,Arial,sans-serif;"><div style="margin-left: 40px; font-family: Helvetica,Arial,sans-serif;">Your report should be designed with the OERP_REPORTID parameter (jasper parameter properties excerpt):<br><br><img style="width: 426px; height: 264px;" alt="OERP_REPORTID" title="OERP_REPORTID" src="parameter_oerp_reportid.png"><br><br>On the JasperSoft Server side the query should look like:<br><br>SELECT * FROM res_users WHERE id in ($P!{OERP_REPORTID}) ORDER BY id<br><br>On the Odoo side the parameter exists in two variants:<br><br>In case of Launch one time for all ids set to True:<br><br><img style="width: 775px; height: 34px;" alt="OERP_REPORTID LOTFAI=TRUE" title="OERP_REPORTID LOTFAI=TRUE" src="oerp_reportid_lotfai_true.png"><br><br>In case of Launch one time for all ids set to False:<br><br><img style="width: 775px; height: 31px;" alt="OERP_REPORTID LOTFAI=FALSE" title="OERP_REPORTID LOTFAI=FALSE" src="oerp_reportid_lotfai_false.png"><br><br></div><div style="font-family: Helvetica,Arial,sans-serif;"><ul><li>A&nbsp;jasper report based on a series of parameters, which can be used in the query and report design</li></ul><h3>The parameter tab view</h3>The figure below depicts the Parameters Tab view:<br><br><img style="width: 825px; height: 168px;" alt="Parameters Tab View" title="Parameters Tab View" src="parameter_tab_view.png"><br><br><ul><li>Enabled - decides whether the parameter will be taken into acoount or not</li><li>Name
+- the name of the parameter, do not forget that it will be uppercased
+and prefixed with OERP_ when passen onto the JasperSoft Server</li><li>Code - an eval compatible python code block in which you can return the correct value for your parameters. You have access to:</li></ul><ul style="margin-left: 40px;"><li>o, being the currrent object</li><li>c, being the company object</li><li>t, being the time module</li><li>u, being the user's object</li><li>ids, the targeted ids </li></ul><ul><li>One Run - these parameters will be eligible when the option&nbsp;Launch one time for all ids is set to True </li><li>Multi Run - these parameters will be eligible when the option&nbsp;Launch one time for all ids is set to False</li><li>Selectable - these parameters will be enabled to provide as parameters in the Generate Jasper Report' option</li></ul></div><div style="font-family: Helvetica,Arial,sans-serif;"><h2>PDF Merge Tab</h2>In case the format PDF is select the PDF Merge tab will become visible.<br><br>This tab will allow you to add a starting and ending banner to your report.<br>You
+add the pdf files to the current report definition and you select them
+as wanted in the PDF Banner to begin and PDF Banner to end field.<br><br><img style="width: 825px; height: 150px;" alt="PDF Merge Tab" title="PDF Merge Tab" src="pdf_merge.png"><br><br><h2>Generate a Jasper Report</h2>Location: Settings -&gt; Technical -&gt; &nbsp;Reports -&gt; Jasper &nbsp;Reports -&gt; Generate a Jasper Report<br><br><img style="width: 825px; height: 349px;" alt="Generate a Japser Report view" title="Generate a Japser Report view" src="generate_japser_report.png"><br><br><ol><li>Select the report you want to generate</li><li>Provide the parameters, which will automatically appear in the Report Parameters section (i.e. all selectable parameters)</li><li>Start the report generation by pressing the 'Generate Report' button.</li></ol></div><span style="font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span>
 </body></html>

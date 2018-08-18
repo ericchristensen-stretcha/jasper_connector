@@ -4,7 +4,8 @@
 
 from lxml.etree import Element, tostring
 from pyPdf import PdfFileWriter, PdfFileReader
-from openerp.tools.misc import ustr
+
+from odoo.tools.misc import ustr
 
 import logging
 _logger = logging.getLogger('odoo.addons.jasper_connector.report')
@@ -146,7 +147,7 @@ def parameter_dict(dico, resource, special=None, parameters=None):
         _logger.debug(' PARAMETER -> RESOURCE: %s' % key)
         if key in 'xml_data':
             continue
-        if parameters.get(key,False):
+        if parameters and parameters.get(key,False):
             _logger.debug('Parameter replaced by %s - %s', key, parameters[key] )
             res['OERP_%s' % key.upper()] = parameters[key]
         else:

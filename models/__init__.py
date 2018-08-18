@@ -5,3 +5,4 @@
 from . import base
 from . import document
 from . import server
+from . import res_users

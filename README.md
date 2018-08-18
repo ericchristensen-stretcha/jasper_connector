@@ -36,3 +36,5 @@ In extension:
 - Generate your report
 
 </div>
+
+Tibco, JasperSoft and JasperSoft Studio are trademarks of Tibco Sotware Inc.

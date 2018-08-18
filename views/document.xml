@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
   <data>
 
     ##
@@ -36,7 +36,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="act_open_document_extension_view">
-        <field name="name">Document Extension</field>
+        <field name="name">Document Extensions</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">jasper.document.extension</field>
         <field name="view_type">form</field>
@@ -159,7 +159,7 @@
             <tree string="Jasper Document" colors="#f66a00:enabled==False" >
                 <field name="enabled"/>
                 <field name="name"/>
-                <field name="format"/>
+                <field name="format" string="Format"/>
                 <field name="model_id"/>
                 <field name="mode"/>
                 <field name="sequence"/>
@@ -194,7 +194,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="format"/>
+                            <field name="format" string="Format"/>
                             <field name="format_choice" invisible="1"/>
                         </group>
                         <group>
@@ -226,10 +226,18 @@
                             <field name="group_ids" nolabel="1" colspan="4"/>
                         </page>
                         <page string="Blocking">
-                            <group string="Condition to launch the printing report">
+                            <group string="Condition to launch the report generation">
                                 <field name="check_sel"/>
-                                <field name="message_simple" attrs="{'readonly': [('check_sel','!=', 'simple')], 'required': [('check_sel','=', 'simple')]}"/>
-                                <field name="check_simple" attrs="{'readonly': [('check_sel','!=', 'simple')], 'required': [('check_sel','=', 'simple')]}"/>
+                                <field name="check_simple"
+                                       attrs="{'readonly': [('check_sel','!=', 'simple')],
+                                               'invisible': [('check_sel','!=', 'simple')],
+                                               'required': [('check_sel','=', 'simple')]}"
+                                />
+                                <field name="message_simple" 
+                                       attrs="{'readonly': [('check_sel','!=', 'simple')], 
+                                               'invisible': [('check_sel','!=', 'simple')],
+                                               'required': [('check_sel','=', 'simple')]}"
+                                />
                             </group>
                         </page>
                         <page string="PDF Merge" attrs="{'invisible': [('format','!=', 'PDF')]}">
@@ -333,4 +341,4 @@
         groups="group_jasper_manager"/>
 
   </data>
-</openerp>
+</odoo>

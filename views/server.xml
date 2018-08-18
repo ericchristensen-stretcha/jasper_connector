@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
   <data>
 
     #
@@ -14,7 +14,7 @@
             <tree string="Jasper Server">
                 <field name="sequence"/>
                 <field name="host"/>
-                <field name="port"/>
+                <field name="port" widget="char"/>
                 <field name="user"/>
                 <field name="prefix"/>
                 <field name="repo"/>
@@ -53,7 +53,7 @@
                     <group>
                         <group>
                             <field name="sequence"/>
-                            <field name="port" placeholder="eg: 8080"/>
+                            <field name="port" placeholder="eg: 8080" widget="char"/>
                         </group>
                         <group>
                             <field name="user" required="1" placeholder="By default user is jasperadmin"/>
@@ -89,4 +89,4 @@
         parent="menu_jasper_conn"/>
 
   </data>
-</openerp>
+</odoo>
