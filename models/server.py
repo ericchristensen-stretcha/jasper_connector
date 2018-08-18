@@ -30,32 +30,29 @@ class JasperServer(models.Model):
 
     # SOC #
     host     = fields.Char('Host', size=128, required=True,
-                           help='Enter hostname or IP address')
-    port     = fields.Integer('Port')
+                           help='Enter hostname or IP address',
+                           default='localhost')
+    port     = fields.Integer('Port',
+                              default='8080')
     user     = fields.Char('Username', size=128,
-                           help='Enter the username for JasperServer user, by default is jasperadmin')  # noqa
+                           help='Enter the username for JasperServer user, by default is jasperadmin',
+                           default='jasperadmin')
     password = fields.Char('Password', size=128,
-                           help='Enter the password for the user, by defaul is jasperadmin')  # noqa
+                           help='Enter the password for the user, by defaul is jasperadmin',
+                           default='jasperadmin')
     repo     = fields.Char('Repository', size=256, required=True,
-                           help='Enter the address of the repository')
-    sequence = fields.Integer('Sequence')
+                           help='Enter the address of the repository',
+                           default='/jasperserver/services/repository')
+    sequence = fields.Integer('Sequence',
+                              default='10')
     enable   = fields.Boolean('Enable this Jasper Server connection',
-                              help='Check this, if the server is available',)  # noqa
+                              help='Check this, if the server is available',)
     status   = fields.Char('Status', size=64,
-                           help='Check the registered and authentification status')  # noqa
+                           help='Check the registered and authentification status')
     prefix   = fields.Char('Prefix', size=32,
-                           help='If prefix is filled, the reportUnit must in the new tree, usefull on a share hosting')  # noqa
+                           help='If prefix is filled, the reportUnit must in the new tree, usefull on a share hosting',
+                           default=False)
     # EOC #
-
-    _defaults = {
-        'host': 'localhost',
-        'port': 8080,
-        'user': 'jasperadmin',
-        'password': 'jasperadmin',
-        'repo': '/jasperserver/services/repository',
-        'sequence': 10,
-        'prefix': False,
-    }
 
     def __init__(self, pool, cr):
         """
@@ -97,24 +94,24 @@ class JasperServer(models.Model):
            extract(century from to_date(to_char(x.datum, 'YYYY-MM-DD'), 'YYYY-MM-DD'))::integer as "century"
     from
     (select to_date('2000-01-01','YYYY-MM-DD') + (to_char(m, 'FM9999999999')||' day')::interval as datum
-     from   generate_series(0, 15000) m) x""")  # noqa
+     from   generate_series(0, 15000) m) x""")
 
         # Check if plpgsql language is installed, if not raise an error
         cr.execute("""select count(*) as "installed" from pg_language
                        where lanname='plpgsql';""")
         if not cr.fetchone()[0]:
-            _logger.warn('Please installed plpgsql in your database, before update your OpenERP server!\nused for translation')  # noqa
+            _logger.warn('Please installed plpgsql in your database, before update your OpenERP server!\nused for translation')
 
         # For some function, we must add plpythonu as language
-        _logger.info("Admin role for the database: %s" % config.get('db_admin', 'oerpadmin'))  # noqa
+        _logger.info("Admin role for the database: %s" % config.get('db_admin', 'oerpadmin'))
         cr.execute("""SELECT count(*) from pg_roles
                        WHERE rolname=%s and rolcanlogin=false;""",
                    (config.get('db_admin', 'oerpadmin'),))
         if not cr.fetchone()[0]:
-            _logger.warn('Role admin not found, we cannot install plpython and function for jasperserver')  # noqa
+            _logger.warn('Role admin not found, we cannot install plpython and function for jasperserver')
         else:
             # Check if plpythonu is installed
-            cr.execute("""SET ROLE %s""", (config.get('db_admin', 'oerpadmin'),))  # noqa
+            cr.execute("""SET ROLE %s""", (config.get('db_admin', 'oerpadmin'),))
             cr.execute("""select count(*) as "installed" from pg_language
                            where lanname='plpythonu';""")
             if not cr.fetchone()[0]:
@@ -151,19 +148,19 @@ class JasperServer(models.Model):
                                   pwd = js_config['password'])
             js.auth()
         except jasperlib.ServerNotFound:
-            message = _('Error, JasperServer not found at %s (port: %d)') % (js.host, js.port)  # noqa
+            message = _('Error, JasperServer not found at %s (port: %d)') % (js.host, js.port)
             _logger.error(message)
             return self.write({'status': message})
         except jasperlib.AuthError:
-            message = _('Error, JasperServer authentification failed for user %s/%s') % (js.user, js.pwd)  # noqa
+            message = _('Error, JasperServer authentification failed for user %s/%s') % (js.user, js.pwd)
             _logger.error(message)
             return self.write({'status': message})
 
         return self.write({'status': _('JasperServer Connection OK')})
 
-    # ************************************************
-    # These method can create an XML for Jasper Server
-    # *************************************************
+    # ********************************************
+    # This method creates an XML for Jasper Server
+    # ********************************************
     # TODO: ban element per level
     ban = (
         'res.company', 'ir.model', 'ir.model.fields', 'res.groups',
@@ -224,7 +221,7 @@ class JasperServer(models.Model):
             log_error('Model %s not found !' % relation)
 
         ##
-        # We must ban many model
+        # We must ban some model
         #
         ban = (
             'res.company', 'ir.model', 'ir.model.fields', 'res.groups',

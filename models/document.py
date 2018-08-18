@@ -124,7 +124,7 @@ class jasper_document(models.Model):
                                       'Checking type',
                                       default='none',
                                       help='if None, no check\nif Simple, define on Check Simple the condition\n if function, the object have check_print function')
-    check_simple   =  fields.Char('Check Simple', size=256,
+    check_simple   =  fields.Char('Simple Check', size=256,
                                   help="This code inside this field must return True to send report execution\neg o.state in ('draft', 'open')")
     message_simple =  fields.Char('Return message', size=256,
                                   translate=True,

@@ -40,7 +40,7 @@
     </record>
 
     <record id="action_wizard_call_jasper_report" model="ir.actions.act_window">
-        <field name="name">Call Japser Report</field>
+        <field name="name">Generate a Jasper Report</field>
         <field name="res_model">wiz.call.jasper.report</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
@@ -50,7 +50,7 @@
 
     <menuitem id="menu_call_jasper_report"
         parent="menu_jasper_conn"
-        name="Call JasperReport"
+        name="Generate a Jasper Report"
         sequence="40"
         action="action_wizard_call_jasper_report"
         groups="group_jasper_manager,group_jasper_user"/>

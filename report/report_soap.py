@@ -98,13 +98,13 @@ class Report(object):
         ctx['type'] = mimetype
         ctx['default_type'] = 'binary'
 
-        return self.pool.get('ir.attachment').create(
-            self.cr, self.uid, {'name': name,
-                                'datas': base64.encodestring(content),
-                                'datas_fname': name,
-                                'file_type': mimetype,
-                                'res_model': self.model,
-                                'res_id': res_id}, context=ctx)
+        return self.env['ir.attachment'].\
+                create({'name': name,
+                        'datas': base64.encodestring(content),
+                        'datas_fname': name,
+                        'file_type': mimetype,
+                        'res_model': self.model,
+                        'res_id': res_id})
 
     def _eval_field(self, cur_obj, fieldcontent):
         """
@@ -241,11 +241,14 @@ class Report(object):
                         not hasattr(self.model_obj, 'check_print'):
                     raise JasperException(_('Check Print Error'), _('"check_print" function not found in "%s" object') % self.model)
                 elif current_document.check_sel == 'func' and \
-                        hasattr(self.model_obj, 'check_print') and \
-                        not self.model_obj.check_print(self.cr, self.uid,
-                                                       cur_obj,
-                                                       context=context):
-                    raise JasperException(_('Check Print Error'), _('Function "check_print" return an error'))
+                        hasattr(self.model_obj, 'check_print'):
+                        record = self.model_obj.browse(cur_obj)
+                        rcode,message = record.check_print()
+                        if not rcode:
+                            if message:
+                                raise JasperException(_('Check Print Error'), _(message))
+                            else:
+                                raise JasperException(_('Check Print Error'), _('Function failed without message'))
 
             except SyntaxError, e:
                 _logger.warning('Error %s' % str(e))
@@ -265,16 +268,16 @@ class Report(object):
 
         reload_ok = False
         if self.attrs['reload'] and aname:
-            _logger.info('Printing must be reload from attachment if exists (%s)' % aname)
-            aids = self.pool.get('ir.attachment').search(
-                self.cr, self.uid, [('name', '=', aname),
-                                    ('res_model', '=', self.model),
-                                    ('res_id', '=', ex)])
+            _logger.info('Report must be reloaded from attachment if exists (%s - %s - %s)' % \
+                         (self.model, ex, aname + '.' + current_document.format.lower()))
+            aids = self.env['ir.attachment'].\
+                    search([('name', '=', (aname + '.' + current_document.format.lower())),
+                            ('res_model', '=', self.model),
+                            ('res_id', '=', ex)])
             if aids:
                 reload_ok = True
-                _logger.info('Attachment found, reload it!')
-                brow_rec = self.pool.get('ir.attachment').browse(
-                    self.cr, self.uid, aids[0])
+                _logger.info('Attachment found, reload it! (%s)', aids[0])
+                brow_rec = aids[0]
                 if brow_rec.datas:
                     d = base64.decodestring(brow_rec.datas)
                     WriteContent(d, pdf_list)
